@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect } from "react";
+import useNetInfo from "./src/hooks/useNetInfo";
+import AppNavigation from "./src/navigation/Navigation";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const { isConnected } = useNetInfo();
+  
+  useEffect(() => {
+    if (typeof isConnected !== "undefined" && !isConnected) {
+      alert("connection lost");
+    }
+  }, [isConnected]);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return <AppNavigation />;
+}
